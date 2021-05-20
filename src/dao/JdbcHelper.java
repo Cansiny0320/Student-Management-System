@@ -1,13 +1,13 @@
 package dao;
 
 
+import bean.Student;
 import bean.User;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 //与数据库通信的类
 
 
@@ -108,4 +108,71 @@ public class JdbcHelper implements JdbcConfig {
         }
     }
 
+    public HashMap<String, String> getAllCollege() {
+        HashMap<String, String> map = new LinkedHashMap<>();
+        map.put("", "");//添加一个空的元素
+        try {
+            ps = ct.prepareStatement("select * from college order by college_id");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                map.put(rs.getString(2), rs.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    public HashMap<String, String> getAllMajor() {
+        HashMap<String, String> map = new LinkedHashMap<>();
+        map.put("", "");//添加一个空的元素
+        try {
+            ps = ct.prepareStatement("select * from major order by major_id");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                map.put(rs.getString(2), rs.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    public ArrayList<String> getMajor(String collegeID) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("");//添加一个空的元素
+        try {
+            ps = ct.prepareStatement("select * from major where college_id=? order by major_id");
+            ps.setString(1, collegeID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                arrayList.add(rs.getString(2));    //获得专业名称
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
+    public boolean addStudent(Student student) {
+        boolean b = true;
+        try {
+            ps = ct.prepareStatement("insert into student values(?,?,?,?,?,?,?,?)");
+            ps.setString(1, student.getStudentID());
+            ps.setString(2, student.getStudentName());
+            ps.setString(3, student.getSex());
+            ps.setString(4, student.getGrade());
+            ps.setString(5, student.getMajorID());
+            ps.setString(6, student.getMajorName());
+            ps.setString(7, student.getCollegeID());
+            ps.setString(8, student.getCollegeName());
+            if (ps.executeUpdate() != 1) {
+                b = false;
+            }
+        } catch (SQLException e) {
+            b = false;
+            e.printStackTrace();
+        }
+        return b;
+    }
 }

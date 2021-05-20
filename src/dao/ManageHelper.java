@@ -1,6 +1,10 @@
 package dao;
 
+import bean.Student;
 import bean.User;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ManageHelper {
     private JdbcHelper helper;    //与数据库通信的对象
@@ -39,8 +43,6 @@ public class ManageHelper {
 
     /**
      * 更新登录状态
-     *
-     * @param user
      */
     public void updateIsLogin(User user) {
         helper = new JdbcHelper();
@@ -50,9 +52,6 @@ public class ManageHelper {
 
     /**
      * 注册
-     *
-     * @param user
-     * @return
      */
     public boolean register(User user) {
         helper = new JdbcHelper();//创建与数据库通信的对象
@@ -66,5 +65,38 @@ public class ManageHelper {
         boolean result = helper.updatePassword(user, newPassword);
         helper.close();//关闭资源
         return result;
+    }
+
+    public HashMap<String, String> getAllCollege() {
+        helper = new JdbcHelper();
+        HashMap<String, String> map;
+        map = helper.getAllCollege();
+        helper.close();//关闭资源
+        return map;
+    }
+
+    public HashMap<String, String> getAllMajor() {
+        helper = new JdbcHelper();
+        HashMap<String, String> map;
+        map = helper.getAllMajor();
+        helper.close();//关闭资源
+        return map;
+    }
+
+
+    public ArrayList<String> getMajor(String collegeID) {
+        helper = new JdbcHelper();
+        ArrayList<String> arrayList;
+        arrayList = helper.getMajor(collegeID);
+        helper.close();
+        return arrayList;
+    }
+
+    public boolean addStudent(Student student) {
+        boolean b;
+        helper = new JdbcHelper();
+        b = helper.addStudent(student);
+        helper.close();//关闭资源
+        return b;
     }
 }
