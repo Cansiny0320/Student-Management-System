@@ -1,10 +1,21 @@
 package bean;
 
+import java.util.HashMap;
+
 public class Student {
     String studentID;
     String studentName;
     String collegeName;
     String CollegeID;
+    private HashMap<String, String> scores;
+
+    public HashMap<String, String> getScores() {
+        return scores;
+    }
+
+    public void setScores(HashMap<String, String> scores) {
+        this.scores = scores;
+    }
 
 
     public String getCollegeID() {

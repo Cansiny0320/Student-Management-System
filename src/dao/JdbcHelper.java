@@ -123,37 +123,6 @@ public class JdbcHelper implements JdbcConfig {
         return map;
     }
 
-    public HashMap<String, String> getAllMajor() {
-        HashMap<String, String> map = new LinkedHashMap<>();
-        map.put("", "");//添加一个空的元素
-        try {
-            ps = ct.prepareStatement("select * from major order by major_id");
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                map.put(rs.getString(2), rs.getString(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return map;
-    }
-
-    public ArrayList<String> getMajor(String collegeID) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("");//添加一个空的元素
-        try {
-            ps = ct.prepareStatement("select * from major where college_id=? order by major_id");
-            ps.setString(1, collegeID);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                arrayList.add(rs.getString(2));    //获得专业名称
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return arrayList;
-    }
-
     public boolean addStudent(Student student) {
         boolean b = true;
         try {
@@ -219,20 +188,55 @@ public class JdbcHelper implements JdbcConfig {
         return true;
     }
 
-//    public ArrayList<String> getCourse() {
-//        try {
-//            ps = ct.prepareStatement("delete from student where student_id=?");
-//            ps.setString(1, studentID);
-//            if (ps.executeUpdate() != 1) {    //执行sql语句
-//
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//
-//        }
-//
-//    }
+    public ArrayList<String> getCourse(String collegeID) {
+        ArrayList<String> result = new ArrayList<>();
+        try {
+            ps = ct.prepareStatement("select course_name from course where college_id = ?");
+            ps.setString(1, collegeID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
 
-//    public HashMap<String, String> getStudentScore() {
-//    }
+        }
+        return result;
+    }
+
+    public HashMap<String, String> getStudentScore(String StudentID) {
+        HashMap<String, String> result = new HashMap<>();
+        try {
+            ps = ct.prepareStatement("select course_name,score from score where student_id=? order by student_id asc");
+            ps.setString(1, StudentID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                result.put(rs.getString(1), rs.getString(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return result;
+    }
+
+    public boolean addStudentScore(Student student, ArrayList<String> courses) {
+        HashMap<String, String> map = student.getScores();
+        try {
+            for (int i = 0; i < map.size(); i++) {
+                ps = ct.prepareStatement("insert into score(course_name,student_id,student_name,score) values (?,?,?,?)");
+                ps.setString(1, courses.get(i));
+                ps.setString(2, student.getStudentID());
+                ps.setString(3, student.getStudentName());
+                ps.setString(4, map.get(courses.get(i)));
+                if (ps.executeUpdate() != 1) {
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

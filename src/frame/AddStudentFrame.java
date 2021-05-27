@@ -21,8 +21,6 @@ public class AddStudentFrame extends JDialog {
         ManageHelper helper = new ManageHelper();
 
         HashMap<String, String> colleges = helper.getAllCollege();    //获得所有学院
-        HashMap<String, String> majors = helper.getAllMajor();    //所有专业
-
         //当前窗口。
         JDialog jd = this;
         this.setSize(350, 429);    //设置窗体大小。

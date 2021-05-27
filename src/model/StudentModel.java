@@ -50,7 +50,7 @@ public class StudentModel extends AbstractTableModel {
 
     //得到某行某列的数据
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
+    public String getValueAt(int rowIndex, int columnIndex) {
         return (this.rowData.get(rowIndex)).get(columnIndex);
     }
 

@@ -75,22 +75,6 @@ public class ManageHelper {
         return map;
     }
 
-    public HashMap<String, String> getAllMajor() {
-        helper = new JdbcHelper();
-        HashMap<String, String> map;
-        map = helper.getAllMajor();
-        helper.close();
-        return map;
-    }
-
-
-    public ArrayList<String> getMajor(String collegeID) {
-        helper = new JdbcHelper();
-        ArrayList<String> arrayList;
-        arrayList = helper.getMajor(collegeID);
-        helper.close();
-        return arrayList;
-    }
 
     public boolean addStudent(Student student) {
         boolean b;
@@ -123,19 +107,27 @@ public class ManageHelper {
         return result;
     }
 
-//    public ArrayList<String> getCourse(String majorID) {
-//        ArrayList<String> result;
-//        helper = new JdbcHelper();
-//        result = helper.getCourse();
-//        helper.close();
-//        return result;
-//    }
+    public ArrayList<String> getCourse(String collegeID) {
+        ArrayList<String> result;
+        helper = new JdbcHelper();
+        result = helper.getCourse(collegeID);
+        helper.close();
+        return result;
+    }
 
-//    public HashMap<String, String> getStudentScore(String toString) {
-//        HashMap<String, String> result;
-//        helper = new JdbcHelper();
-//        result = helper.getStudentScore();
-//        helper.close();
-//        return result;
-//    }
+    public HashMap<String, String> getStudentScore(String StudentID) {
+        HashMap<String, String> result;
+        helper = new JdbcHelper();
+        result = helper.getStudentScore(StudentID);
+        helper.close();
+        return result;
+    }
+
+    public boolean addStudentScore(Student student, ArrayList<String> courses) {
+        boolean result;
+        helper = new JdbcHelper();
+        result = helper.addStudentScore(student, courses);
+        helper.close();
+        return result;
+    }
 }
