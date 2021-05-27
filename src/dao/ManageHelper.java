@@ -16,12 +16,12 @@ public class ManageHelper {
      * @return 返回是否成功登陆
      */
     public boolean login(User user) {
-        helper = new JdbcHelper();    //创建与数据库通信的对象
+        helper = new JdbcHelper();
         User newUser = helper.getUser(user.getUsername());    //获得用户数据
         if (!user.getPassword().equals(newUser.getPassword())) {    //比对密码与数据库中的对应密码是否一致
             return false;
         }
-        helper.close();//关闭资源
+        helper.close();
         return true;
     }
 
@@ -37,7 +37,7 @@ public class ManageHelper {
         if (newUser.getIsLogin() == 0) {
             return false;
         }
-        helper.close();//关闭资源
+        helper.close();
         return true;
     }
 
@@ -54,16 +54,16 @@ public class ManageHelper {
      * 注册
      */
     public boolean register(User user) {
-        helper = new JdbcHelper();//创建与数据库通信的对象
+        helper = new JdbcHelper();
         boolean result = helper.register(user);
-        helper.close();//关闭资源
+        helper.close();
         return result;
     }
 
     public boolean updatePassword(User user, String newPassword) {
-        helper = new JdbcHelper();//创建与数据库通信的对象
+        helper = new JdbcHelper();
         boolean result = helper.updatePassword(user, newPassword);
-        helper.close();//关闭资源
+        helper.close();
         return result;
     }
 
@@ -71,7 +71,7 @@ public class ManageHelper {
         helper = new JdbcHelper();
         HashMap<String, String> map;
         map = helper.getAllCollege();
-        helper.close();//关闭资源
+        helper.close();
         return map;
     }
 
@@ -79,7 +79,7 @@ public class ManageHelper {
         helper = new JdbcHelper();
         HashMap<String, String> map;
         map = helper.getAllMajor();
-        helper.close();//关闭资源
+        helper.close();
         return map;
     }
 
@@ -96,7 +96,30 @@ public class ManageHelper {
         boolean b;
         helper = new JdbcHelper();
         b = helper.addStudent(student);
-        helper.close();//关闭资源
+        helper.close();
         return b;
+    }
+
+    public int getStudentNum() {
+        helper = new JdbcHelper();
+        int n = helper.getStudentNum();
+        helper.close();//关闭资源
+        return n;
+
+    }
+
+    public ArrayList<Student> getStudent() {
+        helper = new JdbcHelper();
+        ArrayList<Student> students = helper.getStudent();
+        helper.close();
+        return students;
+    }
+
+    public boolean deleteStudent(String studentID) {
+        boolean result;
+        helper = new JdbcHelper();
+        result = helper.deleteStudent(studentID);
+        helper.close();
+        return result;
     }
 }

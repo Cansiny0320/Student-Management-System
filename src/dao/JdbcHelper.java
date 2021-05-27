@@ -175,4 +175,55 @@ public class JdbcHelper implements JdbcConfig {
         }
         return b;
     }
+
+    public int getStudentNum() {
+        int result = 0;
+        try {
+            ps = ct.prepareStatement("select count(*) from student");
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public ArrayList<Student> getStudent() {
+        ArrayList<Student> result = new ArrayList<>();
+        try {
+            ps = ct.prepareStatement("select * from student");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Student student = new Student();
+                student.setStudentID(rs.getString(1));
+                student.setStudentName(rs.getString(2));
+                student.setSex(rs.getString(3));
+                student.setGrade(rs.getString(4));
+                student.setMajorID(rs.getString(5));
+                student.setMajorName(rs.getString(6));
+                student.setCollegeID(rs.getString(7));
+                student.setCollegeName(rs.getString(8));
+                result.add(student);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean deleteStudent(String studentID) {
+        try {
+            ps = ct.prepareStatement("delete from student where student_id=?");
+            ps.setString(1, studentID);
+            if (ps.executeUpdate() != 1) {    //执行sql语句
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

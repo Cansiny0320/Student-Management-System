@@ -16,6 +16,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame(User user) {
         super("学生成绩管理系统,欢迎你! " + user.getUsername());
+        ManageHelper helper = new ManageHelper();
         JFrame jf = this;
         //应用菜单条。
         JMenuBar menuBar = new JMenuBar();    //创建菜单条。
@@ -30,20 +31,16 @@ public class MainFrame extends JFrame {
         addStudent.addActionListener(e -> new AddStudentFrame(jf, "添加学生", true));
         studentManagement.add(addStudent);
 
-        JMenuItem queryStudent = new JMenuItem("查询学生信息");    //"查询学生信息"菜单项。
-        queryStudent.addActionListener(e -> new queryStudentFrame(jf, "查询学生信息", true));
-        studentManagement.add(queryStudent);
-
-        //"修改学生信息"菜单项。
-        JMenuItem modify_Student = new JMenuItem("修改学生信息");    //创建"修改学生信息"菜单项。
-        //注册"修改学生信息"菜单项事件监听
-        modify_Student.addActionListener(e -> new ModifyStudentFrame(jf, "修改学生信息", true));
-        studentManagement.add(modify_Student);    //添加"修改学生"菜单项。
-
         //"删除学生"菜单项。
         JMenuItem delete_Student = new JMenuItem("删除学生");    //创建"删除学生"菜单项。
         //注册"删除学生"按钮事件监听
-        delete_Student.addActionListener(e -> new DeleteStudentFrame(jf, "删除学生", true));
+        delete_Student.addActionListener(e -> {
+            if (helper.getStudentNum() == 0) {
+                JOptionPane.showMessageDialog(jf, "还没有学生");
+            } else {
+                new DeleteStudentFrame(jf, "删除学生", true);
+            }
+        });
         studentManagement.add(delete_Student);    //添加"删除学生"菜单项.
 
         JMenu scoreManagement = new JMenu("成绩管理");    //创建"成绩管理"菜单。
@@ -53,17 +50,6 @@ public class MainFrame extends JFrame {
         //注册"添加学生成绩"菜单项事件监听
         addScore.addActionListener(e -> new AddStudentScoreFrame(jf, "添加学生成绩", true));
         scoreManagement.add(addScore);    //添加"添加学生成绩"菜单项。
-
-        //"修改学生成绩"菜单项。
-        JMenuItem modifyScore = new JMenuItem("修改学生成绩");    //创建"修改学生成绩"菜单项。
-        //注册"修改学生成绩"菜单项事件监听
-        modifyScore.addActionListener(e -> new UpdateStudentScoreFrame(jf, "修改学生成绩", true));
-        scoreManagement.add(modifyScore);    //添加"修改学生成绩"菜单项。
-
-        JMenuItem queryScore = new JMenuItem("成绩查询");    //创建"成绩查询"菜单项。
-        //注册"成绩查询"菜单项事件监听
-        queryScore.addActionListener(e -> new QueryStudentScoreFrame(jf, "查询学生成绩", true));
-        scoreManagement.add(queryScore);    //添加"成绩查询"菜单项。
 
         JMenuItem scoreStatistics = new JMenuItem("成绩统计");    //创建"成绩统计"菜单项。
         scoreStatistics.addActionListener(e -> new ScoreAnalyzeOption(jf, "成绩分析选项", true));
@@ -83,7 +69,6 @@ public class MainFrame extends JFrame {
         logout.addActionListener(e -> {
             jf.dispose();    //关闭当前窗口
             //修改登陆状态
-            ManageHelper helper = new ManageHelper();
             user.setIsLogin(0); //设置登陆状态为未登录。
             helper.updateIsLogin(user);
             new LoginFrame();    //打开登陆界面

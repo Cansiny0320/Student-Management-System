@@ -33,16 +33,6 @@ public class AddStudentFrame extends JDialog {
         this.setSize(350, 429);    //设置窗体大小。
         this.setLayout(null);    //设置空布局。
 
-        //"序号"标签。
-        JLabel uid = new JLabel("序号:");
-        uid.setBounds(78, 48, 30, 20);
-        this.add(uid);
-
-        //"学号"文本域。
-        JTextField uidText = new JTextField();
-        uidText.setBounds(116, 48, 150, 20);
-        this.add(uidText);
-
         //"姓名"标签。
         JLabel studentName = new JLabel("姓名:");
         studentName.setBounds(78, 88, 30, 20);
@@ -123,7 +113,6 @@ public class AddStudentFrame extends JDialog {
         //注册"确认"按钮事件监听
         add_Button.addActionListener(e -> {
             Student student = new Student();
-            String _uid = uidText.getText().trim();
             String name = studentNameText.getText().trim();
             String sex = Objects.requireNonNull(sexBox.getSelectedItem()).toString();
             String grade = Objects.requireNonNull(gradeBox.getSelectedItem()).toString();
@@ -132,15 +121,6 @@ public class AddStudentFrame extends JDialog {
             String collegeName;
             String majorName;
             //数据校验部分
-            if (_uid.equals("")) {
-                JOptionPane.showMessageDialog(jd, "序号不能为空！", "", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if (_uid.length() != 3) {
-                JOptionPane.showMessageDialog(jd, "序号必须为三位！", "", JOptionPane.WARNING_MESSAGE);
-                uidText.setText("");
-                return;
-            }
             if (name.equals("")) {
                 JOptionPane.showMessageDialog(jd, "姓名不能为空！", "", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -175,7 +155,7 @@ public class AddStudentFrame extends JDialog {
                 JOptionPane.showMessageDialog(jd, "专业不能为空！", "", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            String id = Tools.createID(grade, collegeID, _uid);
+            String id = Tools.createID(grade, collegeID);
             JOptionPane.showMessageDialog(jd, "该学生的学号为:" + id);
             student.setStudentID(id);
             student.setStudentName(name);

@@ -5,7 +5,6 @@ public class Student {
     String studentName;
     String sex;
     String grade;
-    String classNum;
     String majorName;
     String collegeName;
     String majorID;
@@ -57,14 +56,6 @@ public class Student {
 
     public void setGrade(String grade) {
         this.grade = grade;
-    }
-
-    public String getClassNum() {
-        return classNum;
-    }
-
-    public void setClassNum(String classNum) {
-        this.classNum = classNum;
     }
 
     public String getMajorName() {
