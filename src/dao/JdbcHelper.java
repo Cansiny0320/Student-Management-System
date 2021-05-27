@@ -157,15 +157,11 @@ public class JdbcHelper implements JdbcConfig {
     public boolean addStudent(Student student) {
         boolean b = true;
         try {
-            ps = ct.prepareStatement("insert into student values(?,?,?,?,?,?,?,?)");
+            ps = ct.prepareStatement("insert into student values(?,?,?,?)");
             ps.setString(1, student.getStudentID());
             ps.setString(2, student.getStudentName());
-            ps.setString(3, student.getSex());
-            ps.setString(4, student.getGrade());
-            ps.setString(5, student.getMajorID());
-            ps.setString(6, student.getMajorName());
-            ps.setString(7, student.getCollegeID());
-            ps.setString(8, student.getCollegeName());
+            ps.setString(3, student.getCollegeID());
+            ps.setString(4, student.getCollegeName());
             if (ps.executeUpdate() != 1) {
                 b = false;
             }
@@ -199,12 +195,8 @@ public class JdbcHelper implements JdbcConfig {
                 Student student = new Student();
                 student.setStudentID(rs.getString(1));
                 student.setStudentName(rs.getString(2));
-                student.setSex(rs.getString(3));
-                student.setGrade(rs.getString(4));
-                student.setMajorID(rs.getString(5));
-                student.setMajorName(rs.getString(6));
-                student.setCollegeID(rs.getString(7));
-                student.setCollegeName(rs.getString(8));
+                student.setCollegeID(rs.getString(3));
+                student.setCollegeName(rs.getString(4));
                 result.add(student);
             }
         } catch (SQLException e) {
@@ -226,4 +218,21 @@ public class JdbcHelper implements JdbcConfig {
         }
         return true;
     }
+
+//    public ArrayList<String> getCourse() {
+//        try {
+//            ps = ct.prepareStatement("delete from student where student_id=?");
+//            ps.setString(1, studentID);
+//            if (ps.executeUpdate() != 1) {    //执行sql语句
+//
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//
+//        }
+//
+//    }
+
+//    public HashMap<String, String> getStudentScore() {
+//    }
 }

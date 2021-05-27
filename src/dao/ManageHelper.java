@@ -122,4 +122,20 @@ public class ManageHelper {
         helper.close();
         return result;
     }
+
+//    public ArrayList<String> getCourse(String majorID) {
+//        ArrayList<String> result;
+//        helper = new JdbcHelper();
+//        result = helper.getCourse();
+//        helper.close();
+//        return result;
+//    }
+
+//    public HashMap<String, String> getStudentScore(String toString) {
+//        HashMap<String, String> result;
+//        helper = new JdbcHelper();
+//        result = helper.getStudentScore();
+//        helper.close();
+//        return result;
+//    }
 }

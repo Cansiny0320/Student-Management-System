@@ -21,18 +21,12 @@ public class StudentModel extends AbstractTableModel {
         rowData = new ArrayList<>();
         columnNames.add("学号");
         columnNames.add("姓名");
-        columnNames.add("性别");
-        columnNames.add("年级");
         columnNames.add("学院");
-        columnNames.add("专业");
         for (Student student : students) {
             ArrayList<String> row = new ArrayList<>();
             row.add(student.getStudentID());
             row.add(student.getStudentName());
-            row.add(student.getSex());
-            row.add(student.getGrade());
             row.add(student.getCollegeName());
-            row.add(student.getMajorName());
             rowData.add(row);
         }
         if (getRowCount() == 0) {

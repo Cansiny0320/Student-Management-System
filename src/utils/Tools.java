@@ -18,7 +18,7 @@ public class Tools {
     }
 
     //生成学生学号的方法(学号：grade+collegeID+uid)
-    public static String createID(String grade, String collegeID) {
+    public static String createID(String collegeID) {
         ManageHelper helper = new ManageHelper();
         int count = helper.getStudentNum();
         String uid;
@@ -29,6 +29,6 @@ public class Tools {
         } else {
             uid = "" + count;
         }
-        return grade + collegeID + uid;
+        return "2019" + collegeID + uid;
     }
 }
