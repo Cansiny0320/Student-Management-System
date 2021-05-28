@@ -12,7 +12,7 @@ public class ImagePanel extends JPanel {
 
     public ImagePanel() {
         try {
-            img = ImageIO.read(new File("src/assets/bg.png"));
+            img = ImageIO.read(new File("src/assets/bg.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -21,6 +21,6 @@ public class ImagePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(img, 0, 0, this);
+        g.drawImage(img, 0, 0, 578, 360, this);
     }
 }
