@@ -1,8 +1,21 @@
 package frame;
 
+import dao.ManageHelper;
+import model.ScoreModel;
+import utils.WindowUtil;
+
 import javax.swing.*;
+import java.awt.*;
+import java.util.HashMap;
 
 public class ScoreAnalyzeOption extends JDialog {
+    String collegeID = "";
+    JTable jt;
+    ScoreModel scoreModel;
+    JLabel totalAvgLabel = new JLabel();
+    JLabel goodLabel = new JLabel();
+    JLabel passLabel = new JLabel();
+    JLabel nopassLabel = new JLabel();
 
     /**
      * @param owner 它的父窗口
@@ -11,6 +24,67 @@ public class ScoreAnalyzeOption extends JDialog {
      */
     public ScoreAnalyzeOption(JFrame owner, String title, boolean modal) {
         super(owner, title, modal);
+        ManageHelper helper = new ManageHelper();
+        HashMap<String, String> colleges = helper.getAllCollege();    //获得所有学院
+
+        //当前窗口。
+        JDialog jd = this;
+        Container c = this.getContentPane();
+        JPanel jp3 = new JPanel();
+        JComboBox<String> collegeBox = new JComboBox<>(colleges.keySet().toArray(new String[0]));
+        collegeBox.addActionListener(e -> {
+            String collegeName;
+            if (collegeBox.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(jd, "学院不能为空！", "", JOptionPane.WARNING_MESSAGE);
+            } else {
+                collegeName = collegeBox.getSelectedItem().toString();    //获得院系名称
+                collegeID = colleges.get(collegeName);    //获得院系编号
+                scoreModel = new ScoreModel(collegeID);//构建新的数据模型类，并更新
+                jt.setModel(scoreModel);
+                int stuNum = scoreModel.getRowCount();
+                double good = 0;
+                double pass = 0;
+                double totalAvg = 0;
+                for (int i = 0; i < stuNum; i++) {
+                    double avg = Double.parseDouble(scoreModel.getValueAt(i, 4));
+                    totalAvg += avg;
+                    if (avg >= 80) {
+                        good++;
+                        pass++;
+                    } else if (avg >= 60) {
+                        pass++;
+                    }
+                }
+                totalAvg = totalAvg / stuNum;
+                totalAvgLabel.setText("总平均成绩：" + totalAvg);
+                goodLabel.setText("优秀率：" + (good / stuNum));
+                passLabel.setText("及格率：" + (pass / stuNum));
+                nopassLabel.setText("不及格率：" + (1 - (pass / stuNum)));
+            }
+        });
+        jp3.add(collegeBox);
+        c.add(jp3, BorderLayout.NORTH);
+        JPanel jp1 = new JPanel();
+        //表格。
+        jt = new JTable();
+        //学生数据模型
+        scoreModel = new ScoreModel(collegeID);//构建新的数据模型类，并更新
+        jt.setModel(scoreModel);
+        //滚动条。
+        JScrollPane jsp = new JScrollPane(jt);
+        jp1.add(jsp);
+        c.add(jp1, BorderLayout.WEST);    //添加面板
+        Panel jp4 = new Panel();
+        jp4.setLayout(new GridLayout(4, 1, 5, 5)); //5行1列
+        jp4.add(totalAvgLabel);
+        jp4.add(goodLabel);
+        jp4.add(passLabel);
+        jp4.add(nopassLabel);
+        c.add(jp4, BorderLayout.CENTER);
+        this.setSize(800, 540);
+        this.setResizable(false);
+        WindowUtil.setFrameCenter(this);//设置窗体居中。
+        this.setVisible(true);
     }
 }
 

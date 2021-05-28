@@ -1,6 +1,7 @@
 package dao;
 
 
+import bean.AnalyzeResult;
 import bean.Student;
 import bean.User;
 
@@ -174,6 +175,26 @@ public class JdbcHelper implements JdbcConfig {
         return result;
     }
 
+    public ArrayList<Student> getStudentByCollege(String collegeID) {
+        ArrayList<Student> result = new ArrayList<>();
+        try {
+            ps = ct.prepareStatement("select * from student where college_id=?");
+            ps.setString(1, collegeID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Student student = new Student();
+                student.setStudentID(rs.getString(1));
+                student.setStudentName(rs.getString(2));
+                student.setCollegeID(rs.getString(3));
+                student.setCollegeName(rs.getString(4));
+                result.add(student);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public boolean deleteStudent(String studentID) {
         try {
             ps = ct.prepareStatement("delete from student where student_id=?");
@@ -239,4 +260,25 @@ public class JdbcHelper implements JdbcConfig {
         }
         return true;
     }
+
+    public ArrayList<AnalyzeResult> analyzeScore(String collegeID) {
+        ArrayList<AnalyzeResult> result = new ArrayList<>();
+        try {
+            ps = ct.prepareStatement("select  student_id,student_name,sum(score),avg(score) from score where student_id in (select student_id from student where college_id=?)GROUP BY student_id order by score desc");
+            ps.setString(1, collegeID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                AnalyzeResult r = new AnalyzeResult();
+                r.setStudentId(rs.getString(1));
+                r.setStudentName(rs.getString(2));
+                r.setSumScore(rs.getString(3));
+                r.setAvgScore(rs.getString(4));
+                result.add(r);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

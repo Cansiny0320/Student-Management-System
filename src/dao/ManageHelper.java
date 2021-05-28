@@ -1,5 +1,6 @@
 package dao;
 
+import bean.AnalyzeResult;
 import bean.Student;
 import bean.User;
 
@@ -99,6 +100,13 @@ public class ManageHelper {
         return students;
     }
 
+    public ArrayList<Student> getStudentByCollege(String collegeID) {
+        helper = new JdbcHelper();
+        ArrayList<Student> students = helper.getStudentByCollege(collegeID);
+        helper.close();
+        return students;
+    }
+
     public boolean deleteStudent(String studentID) {
         boolean result;
         helper = new JdbcHelper();
@@ -130,4 +138,14 @@ public class ManageHelper {
         helper.close();
         return result;
     }
+
+    public ArrayList<AnalyzeResult> analyzeScore(String collegeID) {
+        ArrayList<AnalyzeResult> result;
+        helper = new JdbcHelper();
+        result = helper.analyzeScore(collegeID);
+        helper.close();
+        return result;
+    }
+
+
 }

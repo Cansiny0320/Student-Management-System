@@ -52,7 +52,6 @@ public class AddScoreFrame extends JDialog {
         add_button.setBounds(120, 48 + vgap + 5, 60, 20);
         //注册"添加"按钮事件监听
         add_button.addActionListener(arg0 -> {
-            // TODO Auto-generated method stub
             for (String cours : courses) {
                 JTextField field = jtextFieldHashMap.get(cours);
                 String score = field.getText().trim();
