@@ -110,8 +110,5 @@ public class RegisterFrame extends JFrame {
         passwordText.setText("");
     }
 
-    public static void main(String[] args) {
-        new RegisterFrame();
-    }
 }
 

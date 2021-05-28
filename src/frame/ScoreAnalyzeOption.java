@@ -46,7 +46,7 @@ public class ScoreAnalyzeOption extends JDialog {
                 double pass = 0;
                 double totalAvg = 0;
                 for (int i = 0; i < stuNum; i++) {
-                    double avg = Double.parseDouble(scoreModel.getValueAt(i, 4));
+                    double avg = Double.parseDouble(scoreModel.getValueAt(i, 6));
                     totalAvg += avg;
                     if (avg >= 80) {
                         good++;
@@ -57,9 +57,9 @@ public class ScoreAnalyzeOption extends JDialog {
                 }
                 totalAvg = totalAvg / stuNum;
                 totalAvgLabel.setText("总平均成绩：" + totalAvg);
-                goodLabel.setText("优秀率：" + (good / stuNum));
-                passLabel.setText("及格率：" + (pass / stuNum));
-                nopassLabel.setText("不及格率：" + (1 - (pass / stuNum)));
+                goodLabel.setText("优秀率：" + (good / stuNum) * 100 + "%");
+                passLabel.setText("及格率：" + (pass / stuNum) * 100 + "%");
+                nopassLabel.setText("不及格率：" + (1 - (pass / stuNum)) * 100 + "%");
             }
         });
         jp3.add(collegeBox);

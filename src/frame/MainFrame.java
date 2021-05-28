@@ -52,7 +52,7 @@ public class MainFrame extends JFrame {
         scoreManagement.add(addScore);    //添加"添加学生成绩"菜单项。
 
         JMenuItem scoreStatistics = new JMenuItem("成绩统计");    //创建"成绩统计"菜单项。
-        scoreStatistics.addActionListener(e -> new ScoreAnalyzeOption(jf, "成绩分析选项", true));
+        scoreStatistics.addActionListener(e -> new ScoreAnalyzeOption(jf, "成绩统计选项", true));
         scoreManagement.add(scoreStatistics);    //添加"成绩统计"菜单项。
 
         //"个人管理"菜单。
