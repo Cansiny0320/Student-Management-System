@@ -7,6 +7,7 @@ import utils.WindowUtil;
 
 import javax.swing.*;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 public class AddStudentFrame extends JDialog {
     /**
@@ -55,9 +56,14 @@ public class AddStudentFrame extends JDialog {
             String name = studentNameText.getText().trim();
             String collegeID;
             String collegeName;
+            String regex = "^[\\u4e00-\\u9fa5·]{2,16}$";
             //数据校验部分
             if (name.equals("")) {
                 JOptionPane.showMessageDialog(jd, "姓名不能为空！", "", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (!Pattern.matches(regex, name)) {
+                JOptionPane.showMessageDialog(jd, "请输入正确姓名！", "", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             if (collegeBox.getSelectedItem() == null) {
