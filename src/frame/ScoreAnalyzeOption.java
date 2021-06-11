@@ -6,6 +6,9 @@ import utils.WindowUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class ScoreAnalyzeOption extends JDialog {
@@ -31,12 +34,15 @@ public class ScoreAnalyzeOption extends JDialog {
         JDialog jd = this;
         Container c = this.getContentPane();
         JPanel jp3 = new JPanel();
+        JButton exportBtn = new JButton("导出成绩");
+        exportBtn.setVisible(false);
         JComboBox<String> collegeBox = new JComboBox<>(colleges.keySet().toArray(new String[0]));
         collegeBox.addActionListener(e -> {
             String collegeName;
             if (collegeBox.getSelectedItem() == null) {
                 JOptionPane.showMessageDialog(jd, "学院不能为空！", "", JOptionPane.WARNING_MESSAGE);
             } else {
+                exportBtn.setVisible(true);
                 collegeName = collegeBox.getSelectedItem().toString();    //获得院系名称
                 collegeID = colleges.get(collegeName);    //获得院系编号
                 scoreModel = new ScoreModel(collegeID);//构建新的数据模型类，并更新
@@ -63,6 +69,36 @@ public class ScoreAnalyzeOption extends JDialog {
             }
         });
         jp3.add(collegeBox);
+        jp3.add(exportBtn);
+        exportBtn.addActionListener(e -> {
+            try {
+                StringBuilder result = new StringBuilder();
+                for (int i = 0; i < scoreModel.getColumnCount(); i++) {
+                    if (i == scoreModel.getColumnCount() - 1) {
+                        result.append(scoreModel.getColumnName(i)).append("\r\n");
+                    } else {
+                        result.append(scoreModel.getColumnName(i)).append(",");
+                    }
+                }
+                for (int j = 0; j < scoreModel.getRowCount(); j++) {
+                    for (int i = 0; i < scoreModel.getColumnCount(); i++) {
+                        if (i == scoreModel.getColumnCount() - 1) {
+                            result.append(scoreModel.getValueAt(j, i)).append("\r\n");
+                        } else {
+                            result.append(scoreModel.getValueAt(j, i)).append(",");
+                        }
+                    }
+                }
+                System.out.println(result);
+                BufferedWriter out = new BufferedWriter(new FileWriter("src/data/" + collegeBox.getSelectedItem() + "成绩表.csv"));
+                out.write('\ufeff');
+                out.write(result.toString());
+                out.close();
+                System.out.println("文件创建成功！");
+            } catch (IOException err) {
+                err.printStackTrace();
+            }
+        });
         c.add(jp3, BorderLayout.NORTH);
         JPanel jp1 = new JPanel();
         //表格。
