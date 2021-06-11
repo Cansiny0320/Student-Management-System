@@ -89,7 +89,6 @@ public class ScoreAnalyzeOption extends JDialog {
                         }
                     }
                 }
-                System.out.println(result);
                 BufferedWriter out = new BufferedWriter(new FileWriter("src/data/" + collegeBox.getSelectedItem() + "成绩表.csv"));
                 out.write('\ufeff');
                 out.write(result.toString());
